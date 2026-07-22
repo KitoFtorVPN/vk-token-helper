@@ -21,7 +21,7 @@
       statusEl.innerText = 'Запрашиваю разрешение на доступ...';
       return vkBridge.send('VKWebAppGetAuthToken', {
         app_id: 54689392,
-        scope: 'wall,groups,offline'
+        scope: 'wall,groups'
       });
     })
     .then(function (data) {
