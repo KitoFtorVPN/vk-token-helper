@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Получение VK токена</title>
+</head>
+<body style="font-family: -apple-system, Arial, sans-serif; padding: 24px; max-width: 500px; margin: 0 auto;">
+
+<h2>Получение токена</h2>
+<div id="status">Загрузка...</div>
+<div id="token" style="word-break: break-all; background: #f0f0f0; padding: 12px; margin-top: 16px; border-radius: 8px; font-family: monospace; font-size: 14px;"></div>
+
+<script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
+<script>
+  var statusEl = document.getElementById('status');
+  var tokenEl = document.getElementById('token');
+
+  vkBridge.send('VKWebAppInit', {})
+    .then(function () {
+      statusEl.innerText = 'Запрашиваю разрешение на доступ...';
+      return vkBridge.send('VKWebAppGetAuthToken', {
+        app_id: 54689392,
+        scope: 'wall,groups,offline'
+      });
+    })
+    .then(function (data) {
+      statusEl.innerText = 'Готово! Скопируй этот токен целиком:';
+      tokenEl.innerText = data.access_token;
+    })
+    .catch(function (error) {
+      statusEl.innerText = 'Ошибка:';
+      tokenEl.innerText = JSON.stringify(error, null, 2);
+    });
+</script>
+
+</body>
+</html>
